@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#962DFF"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SplashScreen">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/splash"/>
+
+        <TextView
+            android:id="@+id/fcalc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Financial Calculator"
+            android:textColor="#ffffff"
+            android:fontFamily="@font/aref_ruqaa"
+            android:layout_marginTop="30dp"
+            android:textStyle="bold"
+            android:textSize="35sp"/>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>
