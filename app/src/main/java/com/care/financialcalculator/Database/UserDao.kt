@@ -19,4 +19,7 @@ interface UserDao {
 
     @Query("SELECT * FROM user_details WHERE user_name = :userName")
     fun getUserByName(userName: String) : UserEntity
+
+    @Query("SELECT COUNT(*) FROM user_details")
+    fun checkUser():Int
 }

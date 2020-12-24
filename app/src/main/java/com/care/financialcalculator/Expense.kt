@@ -2,11 +2,16 @@ package com.care.financialcalculator
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
+import androidx.room.Room
+import com.care.financialcalculator.Database.UserDatabase
+import com.care.financialcalculator.Database.UserEntity
 import java.text.DecimalFormat
 
 class Expense : AppCompatActivity() {
@@ -61,9 +66,43 @@ class Expense : AppCompatActivity() {
                 val close: Button = customDialog.findViewById(R.id.close)
                 val msg: TextView = customDialog.findViewById(R.id.msg)
                 val saveOrxtra: TextView = customDialog.findViewById(R.id.saveOrxtra)
+                val save : TextView = customDialog.findViewById(R.id.save)
                 val formatter = DecimalFormat("##,##,###.00")
                 val bs = basic.text.toString().toFloat()
                 val ex = expense.text.toString().toFloat()
+
+                val userEntity = UserEntity(
+                    userName.text.toString(),
+                    bs,
+                    (bs*0.1).toFloat(),
+                    (bs * 0.15).toFloat(),
+                    (bs * 0.20).toFloat(),
+                    (bs * 0.12).toFloat(),
+                    ex
+                )
+
+                save.setOnClickListener{
+
+                    if(!DBAysctask(applicationContext,userEntity,1).execute().get()){
+
+                        val async = DBAysctask(applicationContext, userEntity, 2).execute()
+                        val rslt = async.get()
+                        if(rslt){
+                            Toast.makeText(this@Expense,"Saved Successfully",Toast.LENGTH_SHORT).show()
+                        }
+                        else{
+                            Toast.makeText(this@Expense,"Some Error Occured",Toast.LENGTH_SHORT).show()
+                        }
+
+                        basic.text.clear()
+                        expense.text.clear()
+                        name.text.clear()
+                    }
+                    else{
+                        Toast.makeText(this,"User Name already present",Toast.LENGTH_SHORT).show()
+                    }
+                    customDialog.onBackPressed()
+                }
 
                 close.setOnClickListener {
                     customDialog.onBackPressed()
@@ -101,6 +140,32 @@ class Expense : AppCompatActivity() {
             }
         }
 
+
+    }
+
+    class DBAysctask(val context : Context, val userEntity: UserEntity, val op : Int) : AsyncTask<Void,Void,Boolean>(){
+
+        val db = Room.databaseBuilder(context, UserDatabase::class.java,"user-db").build()
+
+        override fun doInBackground(vararg params: Void?): Boolean {
+
+            when(op){
+
+                1->{
+                    val user : UserEntity? = db.userDao().getUserByName(userEntity.user_name.toString())
+                    db.close()
+                    return user != null
+                }
+
+                2->{
+                    db.userDao().insertUser(userEntity)
+                    db.close()
+                    return true
+
+                }
+            }
+            return false
+        }
 
     }
 }

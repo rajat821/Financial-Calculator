@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="10dp">
+                    android:layout_marginStart="12dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -45,11 +45,12 @@
                             android:textColor="#000000"/>
 
                         <TextView
+                            android:id="@+id/nameUser"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:text="Rajat Kumar Chandra"
-                            android:textSize="18sp"
-                            android:textColor="#000000"/>
+                            android:textColor="#000000"
+                            android:textSize="18sp" />
 
                     </LinearLayout>
 
@@ -64,6 +65,7 @@
                             android:text="Basic Salary : "/>
 
                         <TextView
+                            android:id="@+id/bscSalry"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Rs. 1000000"/>
@@ -81,6 +83,7 @@
 
 
                 <Button
+                    android:id="@+id/details"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
