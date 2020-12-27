@@ -3,6 +3,7 @@ package com.care.financialcalculator
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.AsyncTask
@@ -21,6 +22,7 @@ class Expense : AppCompatActivity() {
     lateinit var basic: EditText
     lateinit var expense: EditText
     lateinit var calc: Button
+    lateinit var history : TextView
 
     @SuppressLint("SetTextI18n")
 
@@ -33,6 +35,13 @@ class Expense : AppCompatActivity() {
         basic = findViewById(R.id.edBasic)
         expense = findViewById(R.id.edExpenses)
         calc = findViewById(R.id.calc)
+        history = findViewById(R.id.history)
+
+
+        history.setOnClickListener {
+            val intent = Intent(this@Expense,UserList::class.java)
+            startActivity(intent)
+        }
 
 
 
@@ -72,7 +81,7 @@ class Expense : AppCompatActivity() {
                 val ex = expense.text.toString().toFloat()
 
                 val userEntity = UserEntity(
-                    userName.text.toString(),
+                    name.text.toString(),
                     bs,
                     (bs*0.1).toFloat(),
                     (bs * 0.15).toFloat(),
@@ -161,7 +170,11 @@ class Expense : AppCompatActivity() {
                     db.userDao().insertUser(userEntity)
                     db.close()
                     return true
-
+                }
+                3->{
+                    db.userDao().deleteUser(userEntity)
+                    db.close()
+                    return true
                 }
             }
             return false
